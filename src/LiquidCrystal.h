@@ -39,64 +39,44 @@
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
-// pin definitions and other LCD variables
-uint16_t _rs_pin; // LOW: command.  HIGH: character.
-uint16_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
-uint16_t _enable_pin; // activated by a HIGH pulse.
-uint16_t _data_pins[8];
-GPIO_TypeDef *_port;
-
-uint8_t _displayfunction;
-uint8_t _displaycontrol;
-uint8_t _displaymode;
-
-uint8_t _initialized;
-
-uint8_t _numlines;
-uint8_t _row_offsets[4];
 
 // low-level functions
 void send(uint8_t, uint8_t);
 void write4bits(uint8_t);
 void write8bits(uint8_t);
-void pulseEnable();
+void pulseEnable(void);
 
-// high-level functions
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
-  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
-  uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
-  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
-  uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
-  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
+// initializers
+void LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
   uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
 
 void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
   
-void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
+void begin(uint8_t cols, uint8_t rows, uint8_t charsize);
 
-void clear();
-void home();
+// high-level functions
+void clear(void);
+void home(void);
 
-void noDisplay();
-void display();
-void noBlink();
-void blink();
-void noCursor();
-void cursor();
-void scrollDisplayLeft();
-void scrollDisplayRight();
-void leftToRight();
-void rightToLeft();
-void autoscroll();
-void noAutoscroll();
+void noDisplay(void);
+void display(void);
+void noBlink(void);
+void blink(void);
+void noCursor(void);
+void cursor(void);
+void scrollDisplayLeft(void);
+void scrollDisplayRight(void);
+void leftToRight(void);
+void rightToLeft(void);
+void autoscroll(void);
+void noAutoscroll(void);
 
 void setRowOffsets(int row1, int row2, int row3, int row4);
 void createChar(uint8_t, uint8_t[]);
 void setCursor(uint8_t, uint8_t); 
 size_t write(uint8_t);
 void command(uint8_t);
+
+#endif

@@ -1,42 +1,38 @@
-#include "stm32f3xx_hal.h"
 #include "LiquidCrystal.h"
+#include "stm32f3xx_hal.h"
 #include <stdio.h>
 #include <string.h>
 
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
-			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
-			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
-{
-  init(0, *gpioport, rs, rw, enable, d0, d1, d2, d3, d4, d5, d6, d7);
-}
+// pin definitions and other LCD variables
+uint16_t _rs_pin; // LOW: command.  HIGH: character.
+uint16_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
+uint16_t _enable_pin; // activated by a HIGH pulse.
+uint16_t _data_pins[8];
+GPIO_TypeDef *_port;
 
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
-			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
-			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
-{
-  init(0, *gpioport, rs, 255, enable, d0, d1, d2, d3, d4, d5, d6, d7);
-}
+uint8_t _displayfunction;
+uint8_t _displaycontrol;
+uint8_t _displaymode;
 
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
+uint8_t _initialized;
+
+uint8_t _numlines;
+uint8_t _row_offsets[4];
+
+void LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
-  init(1, *gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
-}
-
-LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs,  uint16_t enable,
-			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
-{
-  init(1, *gpioport, rs, 255, enable, d0, d1, d2, d3, 0, 0, 0, 0);
+  init(1, gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
 void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			 uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
-			 uint16_t d4, uint16_t d5, uint16_tt d6, uint16_t d7)
+			 uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
 {
   _rs_pin = rs;
   _rw_pin = rw;
   _enable_pin = enable;
-  _port = gpioport
+  _port = gpioport;
   
   _data_pins[0] = d0;
   _data_pins[1] = d1;
@@ -52,7 +48,7 @@ void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw,
   else 
     _displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
   
-  begin(16, 2);  
+  begin(16, 2, LCD_5x8DOTS);  
 }
 
 void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -155,13 +151,13 @@ void setRowOffsets(int row0, int row1, int row2, int row3)
 }
 
 /********** high level commands, for the user! */
-void clear()
+void clear(void)
 {
   command(LCD_CLEARDISPLAY);  // clear display, set cursor position to zero
   HAL_Delay(2);  // this command takes a long time!
 }
 
-void home()
+void home(void)
 {
   command(LCD_RETURNHOME);  // set cursor position to zero
   HAL_Delay(2);  // this command takes a long time!
@@ -181,31 +177,31 @@ void setCursor(uint8_t col, uint8_t row)
 }
 
 // Turn the display on/off (quickly)
-void noDisplay() {
+void noDisplay(void) {
   _displaycontrol &= ~LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void display() {
+void display(void) {
   _displaycontrol |= LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // Turns the underline cursor on/off
-void noCursor() {
+void noCursor(void) {
   _displaycontrol &= ~LCD_CURSORON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void cursor() {
+void cursor(void) {
   _displaycontrol |= LCD_CURSORON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
 // Turn on and off the blinking cursor
-void noBlink() {
+void noBlink(void) {
   _displaycontrol &= ~LCD_BLINKON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void blink() {
+void blink(void) {
   _displaycontrol |= LCD_BLINKON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
@@ -255,11 +251,11 @@ void createChar(uint8_t location, uint8_t charmap[]) {
 /*********** mid level commands, for sending data/cmds */
 
 inline void command(uint8_t value) {
-  send(value, LOW);
+  send(value, GPIO_PIN_RESET);
 }
 
 inline size_t write(uint8_t value) {
-  send(value, HIGH);
+  send(value, GPIO_PIN_SET);
   return 1; // assume sucess
 }
 
@@ -271,7 +267,7 @@ void send(uint8_t value, uint8_t mode) {
 
   // if there is a RW pin indicated, set it low to Write
   if (_rw_pin != 255) { 
-    HAL_GPIO_WritePin(_port, _rw_pin, LOW);
+    HAL_GPIO_WritePin(_port, _rw_pin, GPIO_PIN_RESET);
   }
   
   if (_displayfunction & LCD_8BITMODE) {
