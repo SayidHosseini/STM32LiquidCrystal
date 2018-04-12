@@ -68,28 +68,30 @@ void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
     _displayfunction |= LCD_5x10DOTS;
   }
 
-  pinMode(_rs_pin, OUTPUT);
-  // we can save 1 pin by not using RW. Indicate by passing 255 instead of pin#
-  if (_rw_pin != 255) { 
-    pinMode(_rw_pin, OUTPUT);
-  }
-  pinMode(_enable_pin, OUTPUT);
+  //To-DO: setup the pins from within the library
+
+  // pinMode(_rs_pin, OUTPUT);
+  // // we can save 1 pin by not using RW. Indicate by passing 255 instead of pin#
+  // if (_rw_pin != 255) { 
+  //   pinMode(_rw_pin, OUTPUT);
+  // }
+  // pinMode(_enable_pin, OUTPUT);
   
-  // Do these once, instead of every time a character is drawn for speed reasons.
-  for (int i=0; i<((_displayfunction & LCD_8BITMODE) ? 8 : 4); ++i)
-  {
-    pinMode(_data_pins[i], OUTPUT);
-   } 
+  // // Do these once, instead of every time a character is drawn for speed reasons.
+  // for (int i=0; i<((_displayfunction & LCD_8BITMODE) ? 8 : 4); ++i)
+  // {
+  //   pinMode(_data_pins[i], OUTPUT);
+  //  } 
 
   // SEE PAGE 45/46 FOR INITIALIZATION SPECIFICATION!
   // according to datasheet, we need at least 40ms after power rises above 2.7V
   // before sending commands. Arduino can turn on way before 4.5V so we'll wait 50
-  delayMicroseconds(50000); 
+  HAL_Delay(50); 
   // Now we pull both RS and R/W low to begin commands
-  digitalWrite(_rs_pin, LOW);
-  digitalWrite(_enable_pin, LOW);
+  HAL_GPIO_WritePin(_port, _rs_pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_RESET);
   if (_rw_pin != 255) { 
-    digitalWrite(_rw_pin, LOW);
+    HAL_GPIO_WritePin(_port, _rw_pin, GPIO_PIN_RESET);
   }
   
   //put the LCD into 4 bit or 8 bit mode
@@ -99,15 +101,15 @@ void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
 
     // we start in 8bit mode, try to set 4 bit mode
     write4bits(0x03);
-    delayMicroseconds(4500); // wait min 4.1ms
+    HAL_Delay(5); // wait min 4.1ms
 
     // second try
     write4bits(0x03);
-    delayMicroseconds(4500); // wait min 4.1ms
+    HAL_Delay(5); // wait min 4.1ms
     
     // third go!
     write4bits(0x03); 
-    delayMicroseconds(150);
+    HAL_Delay(1);
 
     // finally, set to 4-bit interface
     write4bits(0x02); 
@@ -117,11 +119,11 @@ void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
 
     // Send function set command sequence
     command(LCD_FUNCTIONSET | _displayfunction);
-    delayMicroseconds(4500);  // wait more than 4.1ms
+    HAL_Delay(5);  // wait more than 4.1ms
 
     // second try
     command(LCD_FUNCTIONSET | _displayfunction);
-    delayMicroseconds(150);
+    HAL_Delay(1);
 
     // third go
     command(LCD_FUNCTIONSET | _displayfunction);
