@@ -22,35 +22,35 @@
 // can't assume that its in that state when a sketch starts (and the
 // LiquidCrystal constructor is called).
 
-LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			     uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
 {
   init(0, rs, rw, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
-LiquidCrystal(uint8_t rs, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			     uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+LiquidCrystal(uint16_t rs, uint16_t enable,
+			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
 {
   init(0, rs, 255, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
-LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
+LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
   init(1, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
-LiquidCrystal(uint8_t rs,  uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
+LiquidCrystal(uint16_t rs,  uint16_t enable,
+			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
   init(1, rs, 255, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
-void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable,
-			 uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			 uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+void init(uint8_t fourbitmode, uint16_t rs, uint16_t rw, uint16_t enable,
+			 uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+			 uint16_t d4, uint16_t d5, uint16_tt d6, uint16_t d7)
 {
   _rs_pin = rs;
   _rw_pin = rw;
@@ -201,7 +201,7 @@ void noDisplay() {
   _displaycontrol &= ~LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
-void LiquidCrystal::display() {
+void display() {
   _displaycontrol |= LCD_DISPLAYON;
   command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
@@ -274,7 +274,7 @@ inline void command(uint8_t value) {
   send(value, LOW);
 }
 
-inline size_t LiquidCrystal::write(uint8_t value) {
+inline size_t write(uint8_t value) {
   send(value, HIGH);
   return 1; // assume sucess
 }

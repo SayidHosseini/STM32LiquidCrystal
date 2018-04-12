@@ -40,10 +40,10 @@
 #define LCD_5x8DOTS 0x00
 
 // pins and other LCD variables
-uint8_t _rs_pin; // LOW: command.  HIGH: character.
-uint8_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
-uint8_t _enable_pin; // activated by a HIGH pulse.
-uint8_t _data_pins[8];
+uint16_t _rs_pin; // LOW: command.  HIGH: character.
+uint16_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
+uint16_t _enable_pin; // activated by a HIGH pulse.
+uint16_t _data_pins[8];
 
 uint8_t _displayfunction;
 uint8_t _displaycontrol;
@@ -61,20 +61,20 @@ void write8bits(uint8_t);
 void pulseEnable();
 
 // high-level functions
-LiquidCrystal(uint8_t rs, uint8_t enable,
-  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
-LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
-LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
-LiquidCrystal(uint8_t rs, uint8_t enable,
-  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+LiquidCrystal(uint16_t rs, uint16_t enable,
+  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+  uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
+LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+  uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
+LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
+LiquidCrystal(uint16_t rs, uint16_t enable,
+  uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
 
-void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable,
-    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-    uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
+void init(uint8_t fourbitmode, uint16_t rs, uint16_t rw, uint16_t enable,
+    uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
+    uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
   
 void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
 
