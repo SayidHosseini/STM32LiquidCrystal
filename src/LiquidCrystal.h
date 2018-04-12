@@ -39,11 +39,12 @@
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
-// pins and other LCD variables
+// pin definitions and other LCD variables
 uint16_t _rs_pin; // LOW: command.  HIGH: character.
 uint16_t _rw_pin; // LOW: write to LCD.  HIGH: read from LCD.
 uint16_t _enable_pin; // activated by a HIGH pulse.
 uint16_t _data_pins[8];
+GPIO_TypeDef *_port;
 
 uint8_t _displayfunction;
 uint8_t _displaycontrol;
@@ -61,18 +62,18 @@ void write8bits(uint8_t);
 void pulseEnable();
 
 // high-level functions
-LiquidCrystal(uint16_t rs, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
   uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
   uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
-LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
   uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
   uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
-LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
   uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
-LiquidCrystal(uint16_t rs, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
   uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3);
 
-void init(uint8_t fourbitmode, uint16_t rs, uint16_t rw, uint16_t enable,
+void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
   

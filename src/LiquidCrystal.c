@@ -1,60 +1,42 @@
+#include "stm32f3xx_hal.h"
 #include "LiquidCrystal.h"
-
 #include <stdio.h>
 #include <string.h>
 
-// When the display powers up, it is configured as follows:
-//
-// 1. Display clear
-// 2. Function set: 
-//    DL = 1; 8-bit interface data 
-//    N = 0; 1-line display 
-//    F = 0; 5x8 dot character font 
-// 3. Display on/off control: 
-//    D = 0; Display off 
-//    C = 0; Cursor off 
-//    B = 0; Blinking off 
-// 4. Entry mode set: 
-//    I/D = 1; Increment by 1 
-//    S = 0; No shift 
-//
-// Note, however, that resetting the Arduino doesn't reset the LCD, so we
-// can't assume that its in that state when a sketch starts (and the
-// LiquidCrystal constructor is called).
-
-LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
 			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
 {
-  init(0, rs, rw, enable, d0, d1, d2, d3, d4, d5, d6, d7);
+  init(0, *gpioport, rs, rw, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
-LiquidCrystal(uint16_t rs, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
 			     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7)
 {
-  init(0, rs, 255, enable, d0, d1, d2, d3, d4, d5, d6, d7);
+  init(0, *gpioport, rs, 255, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
-LiquidCrystal(uint16_t rs, uint16_t rw, uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
-  init(1, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
+  init(1, *gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
-LiquidCrystal(uint16_t rs,  uint16_t enable,
+LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs,  uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
-  init(1, rs, 255, enable, d0, d1, d2, d3, 0, 0, 0, 0);
+  init(1, *gpioport, rs, 255, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
-void init(uint8_t fourbitmode, uint16_t rs, uint16_t rw, uint16_t enable,
+void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			 uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
 			 uint16_t d4, uint16_t d5, uint16_tt d6, uint16_t d7)
 {
   _rs_pin = rs;
   _rw_pin = rw;
   _enable_pin = enable;
+  _port = gpioport
   
   _data_pins[0] = d0;
   _data_pins[1] = d1;
@@ -70,7 +52,7 @@ void init(uint8_t fourbitmode, uint16_t rs, uint16_t rw, uint16_t enable,
   else 
     _displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
   
-  begin(16, 1);  
+  begin(16, 2);  
 }
 
 void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -174,13 +156,13 @@ void setRowOffsets(int row0, int row1, int row2, int row3)
 void clear()
 {
   command(LCD_CLEARDISPLAY);  // clear display, set cursor position to zero
-  delayMicroseconds(2000);  // this command takes a long time!
+  HAL_Delay(2);  // this command takes a long time!
 }
 
 void home()
 {
   command(LCD_RETURNHOME);  // set cursor position to zero
-  delayMicroseconds(2000);  // this command takes a long time!
+  HAL_Delay(2);  // this command takes a long time!
 }
 
 void setCursor(uint8_t col, uint8_t row)
@@ -283,11 +265,11 @@ inline size_t write(uint8_t value) {
 
 // write either command or data, with automatic 4/8-bit selection
 void send(uint8_t value, uint8_t mode) {
-  digitalWrite(_rs_pin, mode);
+  HAL_GPIO_WritePin(_port, _rs_pin, mode);
 
   // if there is a RW pin indicated, set it low to Write
   if (_rw_pin != 255) { 
-    digitalWrite(_rw_pin, LOW);
+    HAL_GPIO_WritePin(_port, _rw_pin, LOW);
   }
   
   if (_displayfunction & LCD_8BITMODE) {
@@ -299,17 +281,18 @@ void send(uint8_t value, uint8_t mode) {
 }
 
 void pulseEnable(void) {
-  digitalWrite(_enable_pin, LOW);
-  delayMicroseconds(1);    
-  digitalWrite(_enable_pin, HIGH);
-  delayMicroseconds(1);    // enable pulse must be >450ns
-  digitalWrite(_enable_pin, LOW);
-  delayMicroseconds(100);   // commands need > 37us to settle
+  //we may need delays in useconds if it didn't work
+  HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_RESET);
+  HAL_Delay(1);    
+  HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_SET);
+  HAL_Delay(1);    // enable pulse must be >450ns
+  HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_RESET);
+  HAL_Delay(1);   // commands need > 37us to settle
 }
 
 void write4bits(uint8_t value) {
   for (int i = 0; i < 4; i++) {
-    digitalWrite(_data_pins[i], (value >> i) & 0x01);
+    HAL_GPIO_WritePin(_port, _data_pins[i], (value >> i) & 0x01);
   }
 
   pulseEnable();
@@ -317,7 +300,7 @@ void write4bits(uint8_t value) {
 
 void write8bits(uint8_t value) {
   for (int i = 0; i < 8; i++) {
-    digitalWrite(_data_pins[i], (value >> i) & 0x01);
+    HAL_GPIO_WritePin(_port, _data_pins[i], (value >> i) & 0x01);
   }
   
   pulseEnable();
