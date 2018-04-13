@@ -73,28 +73,30 @@ void begin(uint8_t cols, uint8_t lines) {
     _displayfunction |= LCD_5x10DOTS;
   }
 
-  //To-DO: setup the pins from within the library
-
-  // pinMode(_rs_pin, OUTPUT);
-  // // we can save 1 pin by not using RW. Indicate by passing 255 instead of pin#
-  // if (_rw_pin != 255) { 
-  //   pinMode(_rw_pin, OUTPUT);
-  // }
-  // pinMode(_enable_pin, OUTPUT);
+  //Initializing GPIO Pins
+  enableClock();
   
-  // // Do these once, instead of every time a character is drawn for speed reasons.
-  // for (int i=0; i<((_displayfunction & LCD_8BITMODE) ? 8 : 4); ++i)
-  // {
-  //   pinMode(_data_pins[i], OUTPUT);
-  //  } 
+  GPIO_InitTypeDef gpio_init;
+  gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;
+
+  if(_fourbit_mode)
+    gpio_init.Pin = _rs_pin | _rw_pin | _enable_pin | _data_pins[0] | _data_pins[1] | _data_pins[2] | _data_pins[3];
+  else
+    gpio_init.Pin = _rs_pin | _rw_pin | _enable_pin | _data_pins[0] | _data_pins[1] | _data_pins[2] | _data_pins[3] |
+                    _data_pins[4] | _data_pins[5] | _data_pins[6] | _data_pins[7];
+
+  HAL_GPIO_Init(_port, &gpio_init);
 
   // SEE PAGE 45/46 FOR INITIALIZATION SPECIFICATION!
   // according to datasheet, we need at least 40ms after power rises above 2.7V
   // so we'll wait 50 just to make sure
   HAL_Delay(50); 
+
   // Now we pull both RS and R/W low to begin commands
   HAL_GPIO_WritePin(_port, _rs_pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_RESET);
+
   if (_rw_pin != 255) { 
     HAL_GPIO_WritePin(_port, _rw_pin, GPIO_PIN_RESET);
   }
@@ -149,6 +151,32 @@ void begin(uint8_t cols, uint8_t lines) {
   // set the entry mode
   command(LCD_ENTRYMODESET | _displaymode);
 
+}
+
+// enables SysTick and other GPIO RCC Clock
+void enableClock(void)
+{
+  HAL_Init(); // for HAL_Delay - initializing SysTick
+  
+  if(_port == GPIOA)
+		__HAL_RCC_GPIOA_CLK_ENABLE();
+  else if(_port == GPIOB)
+		__HAL_RCC_GPIOB_CLK_ENABLE();
+  else if(_port == GPIOB)
+		__HAL_RCC_GPIOB_CLK_ENABLE();
+	else if(_port == GPIOC)
+		__HAL_RCC_GPIOC_CLK_ENABLE();
+	else if(_port == GPIOD)
+		__HAL_RCC_GPIOD_CLK_ENABLE();
+	else if(_port == GPIOE)
+		__HAL_RCC_GPIOE_CLK_ENABLE();
+	else if(_port == GPIOF)
+		__HAL_RCC_GPIOF_CLK_ENABLE();
+}
+
+// for HAL_Delay - in case it isn't already declared
+void SysTick_Handler(void) {
+    HAL_IncTick();
 }
 
 void setRowOffsets(int row0, int row1, int row2, int row3)

@@ -55,6 +55,8 @@ void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw,
     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
   
 void begin(uint8_t cols, uint8_t rows);
+void enableClock(void);
+void SysTick_Handler(void);
 
 // high-level functions
 void clear(void);
