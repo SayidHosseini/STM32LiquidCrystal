@@ -238,6 +238,10 @@ void noAutoscroll(void) {
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
+size_t print(const char str[]) {
+  return write1(str);
+}
+
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
 void createChar(uint8_t location, uint8_t charmap[]) {
@@ -302,4 +306,22 @@ void write8bits(uint8_t value) {
   }
   
   pulseEnable();
+}
+
+size_t write1(const char *str) {
+  if (str == NULL) return 0;
+  return write2((const uint8_t *)str, strlen(str));
+}
+
+size_t write2(const char *buffer, size_t size) {
+  return write3((const uint8_t *)buffer, size);
+}
+
+size_t write3(const uint8_t *buffer, size_t size) {
+  size_t n = 0;
+  while (size--) {
+    if (write(*buffer++)) n++;
+    else break;
+  }
+  return n;
 }
