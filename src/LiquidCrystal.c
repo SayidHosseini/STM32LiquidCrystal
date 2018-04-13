@@ -172,6 +172,8 @@ void enableClock(void)
 		__HAL_RCC_GPIOE_CLK_ENABLE();
 	else if(_port == GPIOF)
 		__HAL_RCC_GPIOF_CLK_ENABLE();
+
+  // if you have a port that is not listed add it below the other else ifs
 }
 
 // for HAL_Delay - in case it isn't already declared
