@@ -1,5 +1,5 @@
-#include "LiquidCrystal.h"
 #include "stm32f3xx_hal.h"
+#include "LiquidCrystal.h"
 #include <stdio.h>
 #include <string.h>
 
