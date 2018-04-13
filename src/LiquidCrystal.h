@@ -41,7 +41,7 @@
 
 
 // low-level functions
-void send(uint8_t, uint8_t);
+void send(uint8_t, GPIO_PinState);
 void write4bits(uint8_t);
 void write8bits(uint8_t);
 void pulseEnable(void);
@@ -54,7 +54,7 @@ void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw,
     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3,
     uint16_t d4, uint16_t d5, uint16_t d6, uint16_t d7);
   
-void begin(uint8_t cols, uint8_t rows, uint8_t charsize);
+void begin(uint8_t cols, uint8_t rows);
 
 // high-level functions
 void clear(void);

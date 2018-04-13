@@ -1,7 +1,13 @@
-#include "stm32f3xx_hal.h"
+#include "stm32f3xx_hal.h" // change this line accordingly
 #include "LiquidCrystal.h"
 #include <stdio.h>
 #include <string.h>
+
+// change this to 0 if you want to use 8-bit mode
+uint8_t _fourbit_mode = 1;
+
+// change this to LCD_5x10DOTS for some 1 line displays that can select a 10 pixel high font
+uint8_t dotsize = LCD_5x8DOTS;
 
 // pin definitions and other LCD variables
 uint16_t _rs_pin; // LOW: command.  HIGH: character.
@@ -22,7 +28,10 @@ uint8_t _row_offsets[4];
 void LiquidCrystal(GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
 			     uint16_t d0, uint16_t d1, uint16_t d2, uint16_t d3)
 {
-  init(1, gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
+  if(_fourbit_mode)
+    init(1, gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
+  else
+    init(0, gpioport, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
 void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw, uint16_t enable,
@@ -41,17 +50,17 @@ void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw,
   _data_pins[4] = d4;
   _data_pins[5] = d5;
   _data_pins[6] = d6;
-  _data_pins[7] = d7; 
+  _data_pins[7] = d7;
 
   if (fourbitmode)
     _displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
   else 
     _displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
   
-  begin(16, 2, LCD_5x8DOTS);  
+  begin(16, 2);
 }
 
-void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+void begin(uint8_t cols, uint8_t lines) {
   if (lines > 1) {
     _displayfunction |= LCD_2LINE;
   }
@@ -81,7 +90,7 @@ void begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
 
   // SEE PAGE 45/46 FOR INITIALIZATION SPECIFICATION!
   // according to datasheet, we need at least 40ms after power rises above 2.7V
-  // before sending commands. Arduino can turn on way before 4.5V so we'll wait 50
+  // so we'll wait 50 just to make sure
   HAL_Delay(50); 
   // Now we pull both RS and R/W low to begin commands
   HAL_GPIO_WritePin(_port, _rs_pin, GPIO_PIN_RESET);
@@ -245,7 +254,7 @@ size_t print(const char str[]) {
   const uint8_t *buffer = (const uint8_t *)str;
   size_t size = strlen(str);
   size_t n = 0;
-  //To-Do: if more than 16 characters go the next line
+
   while (size--) {
     if (write(*buffer++)) n++;
     else break;
@@ -277,7 +286,7 @@ inline size_t write(uint8_t value) {
 /************ low level data pushing commands **********/
 
 // write either command or data, with automatic 4/8-bit selection
-void send(uint8_t value, uint8_t mode) {
+void send(uint8_t value, GPIO_PinState mode) {
   HAL_GPIO_WritePin(_port, _rs_pin, mode);
 
   // if there is a RW pin indicated, set it low to Write
@@ -305,7 +314,7 @@ void pulseEnable(void) {
 
 void write4bits(uint8_t value) {
   for (int i = 0; i < 4; i++) {
-    HAL_GPIO_WritePin(_port, _data_pins[i], (value >> i) & 0x01);
+    HAL_GPIO_WritePin(_port, _data_pins[i], ((value >> i) & 0x01)?GPIO_PIN_SET:GPIO_PIN_RESET);
   }
 
   pulseEnable();
@@ -313,7 +322,7 @@ void write4bits(uint8_t value) {
 
 void write8bits(uint8_t value) {
   for (int i = 0; i < 8; i++) {
-    HAL_GPIO_WritePin(_port, _data_pins[i], (value >> i) & 0x01);
+    HAL_GPIO_WritePin(_port, _data_pins[i], ((value >> i) & 0x01)?GPIO_PIN_SET:GPIO_PIN_RESET);
   }
   
   pulseEnable();
