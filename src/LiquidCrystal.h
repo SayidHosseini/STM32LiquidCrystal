@@ -73,10 +73,6 @@ void rightToLeft(void);
 void autoscroll(void);
 void noAutoscroll(void);
 size_t print(const char []);
-size_t write1(const char *);
-size_t write2(const char *, size_t);
-size_t write2(const char *, size_t);
-size_t write3(const uint8_t *, size_t);
 
 void setRowOffsets(int row1, int row2, int row3, int row4);
 void createChar(uint8_t, uint8_t[]);

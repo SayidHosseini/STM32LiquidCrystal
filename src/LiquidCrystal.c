@@ -238,8 +238,19 @@ void noAutoscroll(void) {
   command(LCD_ENTRYMODESET | _displaymode);
 }
 
+// This will print character string to the LCD
 size_t print(const char str[]) {
-  return write1(str);
+  if (str == NULL) return 0;
+
+  const uint8_t *buffer = (const uint8_t *)str;
+  size_t size = strlen(str);
+  size_t n = 0;
+  //To-Do: if more than 16 characters go the next line
+  while (size--) {
+    if (write(*buffer++)) n++;
+    else break;
+  }
+  return n;
 }
 
 // Allows us to fill the first 8 CGRAM locations
@@ -306,22 +317,4 @@ void write8bits(uint8_t value) {
   }
   
   pulseEnable();
-}
-
-size_t write1(const char *str) {
-  if (str == NULL) return 0;
-  return write2((const uint8_t *)str, strlen(str));
-}
-
-size_t write2(const char *buffer, size_t size) {
-  return write3((const uint8_t *)buffer, size);
-}
-
-size_t write3(const uint8_t *buffer, size_t size) {
-  size_t n = 0;
-  while (size--) {
-    if (write(*buffer++)) n++;
-    else break;
-  }
-  return n;
 }
