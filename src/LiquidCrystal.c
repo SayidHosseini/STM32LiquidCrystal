@@ -331,7 +331,6 @@ void send(uint8_t value, GPIO_PinState mode) {
 }
 
 void pulseEnable(void) {
-  //we may need delays in useconds if it didn't work
   HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_RESET);
   HAL_Delay(1);    
   HAL_GPIO_WritePin(_port, _enable_pin, GPIO_PIN_SET);
