@@ -22,9 +22,9 @@
  * ends to +5V and ground
  * wiper to LCD VO pin (pin 3)
 
- library forked from Arduino, Adafruit and modified 12 Apr 2018
+ library originated from Arduino, Adafruit and ported 12 Apr 2018
  by S. Saeed Hosseini (sayidhosseii@hotmail.com)
- example forked from Arduino, Adafruit and modified 13 Apr 2018
+ example originated from Arduino, Adafruit and ported 13 Apr 2018
  by S. Saeed Hosseini (sayidhosseii@hotmail.com)
 
 
