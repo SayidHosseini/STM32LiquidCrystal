@@ -36,6 +36,9 @@
  http://icontexto.com/charactercreator/
 
 */
+
+/* This example is not working yet */
+
 #include "stm32f3xx_hal.h" // change this here and inside LiquidCrystal library accordingly
 #include "LiquidCrystal.h"
 
