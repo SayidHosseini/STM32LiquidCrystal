@@ -37,8 +37,14 @@
 
 int thisChar = 'a';
 
+// ISR Required by the library (for HAL_Delay)
+void SysTick_Handler(void);
+
 int main(void)
 {
+	// Initializing SysTick - required by the library
+	HAL_Init();
+
 	// initialize the library by associating any needed LCD interface pin
 	LiquidCrystal(GPIOD, GPIO_PIN_8, GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14);
 	
@@ -68,4 +74,9 @@ int main(void)
 		// increment the letter:
 		thisChar++;
 	}
+}
+
+void SysTick_Handler(void)
+{
+	HAL_IncTick();
 }

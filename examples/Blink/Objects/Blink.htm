@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\Blink.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Blink.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sat Apr 14 11:15:38 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sat Apr 14 20:07:32 2018
 <BR><P>
-<H3>Maximum Stack Usage =        248 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-__rt_entry_main &rArr; main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+__rt_entry_main &rArr; main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 <P>
 <H3>
 Functions with no stack information
@@ -80,7 +80,7 @@ Function Pointers
  <LI><a href="#[30]">SPI2_IRQHandler</a> from startup_stm32f303xc.o(.text) referenced from startup_stm32f303xc.o(RESET)
  <LI><a href="#[3c]">SPI3_IRQHandler</a> from startup_stm32f303xc.o(.text) referenced from startup_stm32f303xc.o(RESET)
  <LI><a href="#[8]">SVC_Handler</a> from startup_stm32f303xc.o(.text) referenced from startup_stm32f303xc.o(RESET)
- <LI><a href="#[b]">SysTick_Handler</a> from liquidcrystal.o(i.SysTick_Handler) referenced from startup_stm32f303xc.o(RESET)
+ <LI><a href="#[b]">SysTick_Handler</a> from main.o(i.SysTick_Handler) referenced from startup_stm32f303xc.o(RESET)
  <LI><a href="#[4e]">SystemInit</a> from system_stm32f3xx.o(i.SystemInit) referenced from startup_stm32f303xc.o(.text)
  <LI><a href="#[e]">TAMP_STAMP_IRQHandler</a> from startup_stm32f303xc.o(.text) referenced from startup_stm32f303xc.o(RESET)
  <LI><a href="#[24]">TIM1_BRK_TIM15_IRQHandler</a> from startup_stm32f303xc.o(.text) referenced from startup_stm32f303xc.o(RESET)
@@ -227,8 +227,8 @@ Global Symbols
 <P><STRONG><a name="[a2]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[5b]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248 + Unknown Stack Size
-<LI>Call Chain = __rt_entry_main &rArr; main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<BR><BR>[Stack]<UL><LI>Max Depth = 240 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_main &rArr; main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
@@ -604,7 +604,7 @@ Global Symbols
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriorityGrouping
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enableClock
+<BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[69]"></a>HAL_InitTick</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, stm32f3xx_hal.o(i.HAL_InitTick))
@@ -642,14 +642,14 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6f]"></a>LiquidCrystal</STRONG> (Thumb, 86 bytes, Stack size 72 bytes, liquidcrystal.o(i.LiquidCrystal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = LiquidCrystal &rArr; init &rArr; begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = LiquidCrystal &rArr; init &rArr; begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b]"></a>SysTick_Handler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, liquidcrystal.o(i.SysTick_Handler))
+<P><STRONG><a name="[b]"></a>SysTick_Handler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, main.o(i.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SysTick_Handler
 </UL>
 <BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_IncTick
@@ -660,7 +660,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f303xc.o(.text)
 </UL>
 <P><STRONG><a name="[72]"></a>begin</STRONG> (Thumb, 406 bytes, Stack size 32 bytes, liquidcrystal.o(i.begin))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
@@ -712,26 +712,25 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;begin
 </UL>
 
-<P><STRONG><a name="[74]"></a>enableClock</STRONG> (Thumb, 274 bytes, Stack size 8 bytes, liquidcrystal.o(i.enableClock))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
-</UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<P><STRONG><a name="[74]"></a>enableClock</STRONG> (Thumb, 270 bytes, Stack size 8 bytes, liquidcrystal.o(i.enableClock))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = enableClock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;begin
 </UL>
 
 <P><STRONG><a name="[70]"></a>init</STRONG> (Thumb, 102 bytes, Stack size 40 bytes, liquidcrystal.o(i.init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = init &rArr; begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = init &rArr; begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;begin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LiquidCrystal
 </UL>
 
-<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 66 bytes, Stack size 24 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; enableClock &rArr; HAL_Init &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority &rArr; __NVIC_SetPriority
+<P><STRONG><a name="[5c]"></a>main</STRONG> (Thumb, 70 bytes, Stack size 24 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = main &rArr; LiquidCrystal &rArr; init &rArr; begin &rArr; display &rArr; command &rArr; send &rArr; write8bits &rArr; pulseEnable &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;noBlink
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;blink

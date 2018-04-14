@@ -26,18 +26,9 @@ Project File Date:  04/14/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Program Files (x86)\ARM\ARMCC\Bin'
-Rebuild target 'Target 1'
-compiling stm32f3xx_hal.c...
-compiling stm32f3xx_hal_gpio.c...
+Build target 'Target 1'
 compiling main.c...
-compiling stm32f3xx_hal_cortex.c...
-compiling stm32f3xx_hal_flash.c...
-assembling startup_stm32f303xc.s...
-compiling stm32f3xx_hal_flash_ex.c...
 compiling LiquidCrystal.c...
-compiling system_stm32f3xx.c...
-compiling stm32f3xx_hal_rcc.c...
-compiling stm32f3xx_hal_rcc_ex.c...
 linking...
 Program Size: Code=2992 RO-data=424 RW-data=32 ZI-data=1648  
 ".\Objects\Cursor.axf" - 0 Error(s), 0 Warning(s).
@@ -72,9 +63,9 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil.Standalone::Device:Startup:1.0.0
+      Include file:  Drivers\CMSIS\Device\ST\STM32F3xx\Include\stm32f3xx.h
       Source file:   MDK\Device\Source\ARM\STM32F3xx_OPT.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F3xx\Source\Templates\arm\startup_stm32f303xc.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F3xx\Include\stm32f3xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F3xx\Source\Templates\system_stm32f3xx.c
 
    * Component: Keil.Standalone::Device:STM32Cube HAL:RCC:1.9.0
@@ -92,19 +83,19 @@ Package Vendor: Keil
       Source file:   Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_cortex.c
 
    * Component: Keil.Standalone::Device:STM32Cube HAL:COMMON:1.9.0
-      Source file:   Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal.c
       Include file:  Drivers\STM32F3xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h
-      Source file:   MDK\Templates\Src\stm32f3xx_hal_msp.c
-      Include file:  MDK\Templates\Inc\main.h
-      Source file:   MDK\Templates\Src\stm32f3xx_it.c
-      Include file:  Drivers\STM32F3xx_HAL_Driver\Inc\stm32f3xx_hal.h
-      Include file:  Drivers\STM32F3xx_HAL_Driver\Inc\stm32f3xx_hal_def.h
-      Source file:   MDK\Templates\Src\main.c
-      Include file:  MDK\Templates\Inc\stm32f3xx_hal_conf.h
       Include file:  MDK\Templates\Inc\stm32f3xx_it.h
+      Source file:   MDK\Templates\Src\main.c
+      Include file:  Drivers\STM32F3xx_HAL_Driver\Inc\stm32f3xx_hal.h
+      Source file:   MDK\Templates\Src\stm32f3xx_hal_msp.c
+      Source file:   Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal.c
+      Source file:   MDK\Templates\Src\stm32f3xx_it.c
+      Include file:  MDK\Templates\Inc\main.h
+      Include file:  MDK\Templates\Inc\stm32f3xx_hal_conf.h
+      Include file:  Drivers\STM32F3xx_HAL_Driver\Inc\stm32f3xx_hal_def.h
 
    * Component: ARM::CMSIS:CORE:5.1.1
-Build Time Elapsed:  00:00:08
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

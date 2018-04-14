@@ -7,6 +7,7 @@ This is a port of LiquidCrystal library from Arduino.
 This library and its examples has been forked from
 http://www.arduino.cc/en/Reference/LiquidCrystal
 
+The examples have been built for the STM32F3 Discovery. But the library should work on any STM32 ARM microcontroller.
 
 == License ==
 

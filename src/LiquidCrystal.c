@@ -153,11 +153,9 @@ void begin(uint8_t cols, uint8_t lines) {
 
 }
 
-// enables SysTick and other GPIO RCC Clock
+// enables GPIO RCC Clock
 void enableClock(void)
-{
-  HAL_Init(); // for HAL_Delay - initializing SysTick
-  
+{  
   if(_port == GPIOA)
 		__HAL_RCC_GPIOA_CLK_ENABLE();
   else if(_port == GPIOB)
@@ -174,11 +172,6 @@ void enableClock(void)
 		__HAL_RCC_GPIOF_CLK_ENABLE();
 
   // if you have a port that is not listed add it below the other else ifs
-}
-
-// for HAL_Delay - in case it isn't already declared
-void SysTick_Handler(void) {
-    HAL_IncTick();
 }
 
 void setRowOffsets(int row0, int row1, int row2, int row3)
