@@ -1,0 +1,16 @@
+--cpu=Cortex-M4.fp
+".\objects\main.o"
+".\objects\liquidcrystal.o"
+".\objects\stm32f3xx_hal.o"
+".\objects\stm32f3xx_hal_cortex.o"
+".\objects\stm32f3xx_hal_flash.o"
+".\objects\stm32f3xx_hal_flash_ex.o"
+".\objects\stm32f3xx_hal_gpio.o"
+".\objects\stm32f3xx_hal_rcc.o"
+".\objects\stm32f3xx_hal_rcc_ex.o"
+".\objects\startup_stm32f303xc.o"
+".\objects\system_stm32f3xx.o"
+--strict --scatter ".\Objects\setCursor.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\setCursor.map" -o .\Objects\setCursor.axf
