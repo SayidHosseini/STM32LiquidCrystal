@@ -1,9 +1,12 @@
-= Liquid Crystal Library for Arduino =
+= Liquid Crystal Library for ARM STM32 =
 
-This library allows an Arduino board to control LiquidCrystal displays (LCDs) based on the Hitachi HD44780 (or a compatible) chipset, which is found on most text-based LCDs.
+This library allows a STM32 ARM microcontroller to control LiquidCrystal displays (LCDs) based on the Hitachi HD44780 (or a compatible) chipset, which is found on most text-based LCDs.
 
-For more information about this library please visit us at
+This is a port of LiquidCrystal library from Arduino.
+
+This library and its examples has been forked from
 http://www.arduino.cc/en/Reference/LiquidCrystal
+
 
 == License ==
 
