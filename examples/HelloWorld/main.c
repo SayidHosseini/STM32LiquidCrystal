@@ -1,14 +1,13 @@
 /*
-  LiquidCrystal Library - display() and noDisplay()
+  LiquidCrystal Library - Hello World
 
  Demonstrates the use of a 16x2 LCD display.  The LiquidCrystal
  library works with all LCD displays that are compatible with the
  Hitachi HD44780 driver. There are many of them out there, and you
  can usually tell them by the 16-pin interface.
 
- This sketch prints "Hello World!" to the LCD and uses the
- display() and noDisplay() functions to turn on and off
- the display.
+ This sketch prints "Hello World!" to the LCD
+ and shows the time.
 
  The circuit:
  * LCD RS pin to PD8
@@ -30,7 +29,7 @@
 
  This example code is in the public domain.
 
- https://github.com/SayidHosseini/LiquidCrystal/tree/master/examples/Display
+ https://github.com/SayidHosseini/LiquidCrystal/tree/master/examples/HelloWorld
 
 */
 #include "stm32f3xx_hal.h" // change this here and inside LiquidCrystal library accordingly
@@ -43,13 +42,17 @@ int main(void)
 	
 	print("Hello, World!");
 	
+	int i = 0;
+	char* str;
+	
 	while(1)
 	{
-    // Turn off the display:
-    noDisplay();
-    HAL_Delay(500);
-    // Turn on the display:
-    display();
-    HAL_Delay(500);
+		// set the cursor to column 0, line 1
+		// (note: line 1 is the second row, since counting begins with 0):
+		setCursor(0, 1);
+		// print the number of seconds since reset:		
+		sprintf(str, "%.1f", (i++ / 10.0));
+		print(str);
+		HAL_Delay(80);
 	}
 }
