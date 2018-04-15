@@ -4,7 +4,7 @@ This library allows a STM32 ARM microcontroller to control LiquidCrystal display
 This is a port of LiquidCrystal library from Arduino.
 
 == This library currently supports the following functionalities ==
-<ul>
+
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/Autoscroll/main.c[En/Dis Autoscroll]**
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/Blink/main.c[En/Dis Blink]**
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/Cursor/main.c[En/Dis Cursor]**
@@ -12,7 +12,7 @@ This is a port of LiquidCrystal library from Arduino.
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/Scroll/main.c[Scrol Left or Right]**
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/setCursor/main.c[Set Cursor position]**
 ==== ** https://github.com/SayidHosseini/STM32LiquidCrystal/blob/master/examples/TextDirection/main.c[Changing Text Direction]**
-</ul>
+
 {empty} +
 {empty} +
 
