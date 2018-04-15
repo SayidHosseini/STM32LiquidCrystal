@@ -1,3 +1,12 @@
+/*
+ * LiquidCrystal.h - LiquidCrystal Library for STM32 ARM microcontrollers
+ *
+ *  Created on: April 12, 2018
+ *      Author: S. Saeed Hosseini (sayidhosseini@hotmail.com)
+ *      Ported from: Arduino, Adafruit (https://github.com/arduino-libraries/LiquidCrystal)
+ *      Published to: Github (https://github.com/SayidHosseini/STM32LiquidCrystal)
+ */
+
 #ifndef LiquidCrystal_h
 #define LiquidCrystal_h
 
