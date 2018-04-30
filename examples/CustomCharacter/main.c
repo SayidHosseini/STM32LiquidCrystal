@@ -1,14 +1,11 @@
 /*
   LiquidCrystal Library - Custom Characters
-
  Demonstrates the use of a 16x2 LCD display.  The LiquidCrystal
  library works with all LCD displays that are compatible with the
  Hitachi HD44780 driver. There are many of them out there, and you
  can usually tell them by the 16-pin interface.
-
  This sketch prints "I <heart> ARM!" and a little dancing man
  to the LCD.
-
  The circuit:
  * LCD RS pin to PD8
  * LCD R/W pin to PD9
@@ -20,7 +17,6 @@
  * 10K resistor:
  * ends to +5V and ground
  * wiper to LCD VO pin (pin 3)
-
  library originated from Arduino, Adafruit and ported 12 Apr 2018
  by S. Saeed Hosseini (sayidhosseii@hotmail.com)
  example originated from Arduino, Adafruit and ported 13 Apr 2018
@@ -28,77 +24,73 @@
  
  Based on Adafruit's example at
  https://github.com/adafruit/SPI_VFD/blob/master/examples/createChar/createChar.pde
-
  This example code is in the public domain.
  https://github.com/SayidHosseini/LiquidCrystal/tree/master/examples/CustomeCharacter
  
  Also useful:
  http://icontexto.com/charactercreator/
-
 */
-
-/* This example and createChar function are not working yet */
 
 #include "stm32f3xx_hal.h" // change this here and inside LiquidCrystal library accordingly
 #include "LiquidCrystal.h"
 
-//this should be checked to see if this is the way
+// byte is not defined here by default
 typedef unsigned char byte;
 
 // make some custom characters:
 byte heart[8] = {
-  0b00000,
-  0b01010,
-  0b11111,
-  0b11111,
-  0b11111,
-  0b01110,
-  0b00100,
-  0b00000
+  0x00, // 0b00000,
+  0x0A, // 0b01010,
+  0x1F, // 0b11111,
+  0x1F, // 0b11111,
+  0x1F, // 0b11111,
+  0x0E, // 0b01110,
+  0x04, // 0b00100,
+  0x00  // 0b00000
 };
 
 byte smiley[8] = {
-  0b00000,
-  0b00000,
-  0b01010,
-  0b00000,
-  0b00000,
-  0b10001,
-  0b01110,
-  0b00000
+  0x00, // 0b00000,
+  0x00, // 0b00000,
+  0x0A, // 0b01010,
+  0x00, // 0b00000,
+  0x00, // 0b00000,
+  0x11, // 0b10001,
+  0x0E, // 0b01110,
+  0x00  // 0b00000
 };
 
 byte frownie[8] = {
-  0b00000,
-  0b00000,
-  0b01010,
-  0b00000,
-  0b00000,
-  0b00000,
-  0b01110,
-  0b10001
+  0x00, // 0b00000,
+  0x00, // 0b00000,
+  0x0A, // 0b01010,
+  0x00, // 0b00000,
+  0x00, // 0b00000,
+  0x00, // 0b00000,
+  0x0E, // 0b01110,
+  0x11  // 0b10001
 };
 
 byte armsDown[8] = {
-  0b00100,
-  0b01010,
-  0b00100,
-  0b00100,
-  0b01110,
-  0b10101,
-  0b00100,
-  0b01010
+  0x04, // 0b00100,
+  0x0A, // 0b01010,
+  0x04, // 0b00100,
+  0x04, // 0b00100,
+  0x0E, // 0b01110,
+  0x15, // 0b10101,
+  0x04, // 0b00100,
+  0x0A  // 0b01010
 };
 
 byte armsUp[8] = {
-  0b00100,
-  0b01010,
-  0b00100,
-  0b10101,
-  0b01110,
-  0b00100,
-  0b00100,
-  0b01010
+  0x04, // 0b00100,
+  0x0A, // 0b01010,
+  0x04, // 0b00100,
+  0x15, // 0b10101,
+  0x0E, // 0b01110,
+  0x04, // 0b00100,
+  0x04, // 0b00100,
+  0x0A  // 0b01010
 };
 
 // ISR Required by the library (for HAL_Delay)
@@ -124,10 +116,11 @@ int main(void)
   createChar(4, armsUp);
 
   // Print a message to the lcd.
+	setCursor(1, 0); // This line is vital. You should set the cursor after you createChar.
   print("I ");
-  write((0)); // when calling lcd.write() '0' must be cast as a byte
+  write((0)); // love :-D
   print(" ARM! ");
-  write((byte)1);
+  write(1);
 
 	
 	while(1)
