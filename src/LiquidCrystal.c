@@ -66,7 +66,7 @@ void init(uint8_t fourbitmode, GPIO_TypeDef *gpioport, uint16_t rs, uint16_t rw,
   else 
     _displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
   
-  begin(16, 2);
+  begin(20, 4);
 }
 
 void begin(uint8_t cols, uint8_t lines) {
