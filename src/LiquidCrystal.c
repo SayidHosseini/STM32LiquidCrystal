@@ -302,6 +302,12 @@ void printInt(int num){
 	print(buff);
 }
 
+// Allows Us To Print Integers On LCD
+void printFloat(float num){
+	char buff[16];
+	sprintf(buff,"%.5f",num); //Change .5 according to the precision you need
+	print(buff);		      //If Your Compiler Gives Warning Regarding Float Use This Flag  -u _printf_float
+
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
 void createChar(uint8_t location, uint8_t charmap[]) {
