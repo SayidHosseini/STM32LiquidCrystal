@@ -85,6 +85,7 @@ void autoscroll(void);
 void noAutoscroll(void);
 size_t print(const char []);
 void printInt(int);
+void printFloat(float);
 void setRowOffsets(int row1, int row2, int row3, int row4);
 void createChar(uint8_t, uint8_t[]);
 void setCursor(uint8_t, uint8_t); 
