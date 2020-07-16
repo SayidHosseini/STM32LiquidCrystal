@@ -2,9 +2,10 @@
  * LiquidCrystal.h - LiquidCrystal Library for STM32 ARM microcontrollers
  *
  *  Created on: April 12, 2018
- *      Author: S. Saeed Hosseini (sayidhosseini@hotmail.com)
- *      Ported from: Arduino, Adafruit (https://github.com/arduino-libraries/LiquidCrystal)
- *      Published to: Github (https://github.com/SayidHosseini/STM32LiquidCrystal)
+ *  Modified on: July 17, 2020
+ *	Ported from: Arduino, Adafruit (https://github.com/arduino-libraries/LiquidCrystal)
+ *      Author: S. Saeed Hosseini (sayidhosseini@hotmail.com) - Github (https://github.com/SayidHosseini/STM32LiquidCrystal)
+ *      Modified By: Satyam Khanna (satyamkhanna66@gmail.com) - Github (https://github.com/samkhannaind/STM32LiquidCrystal)
  */
 
 #ifndef LiquidCrystal_h
@@ -83,7 +84,7 @@ void rightToLeft(void);
 void autoscroll(void);
 void noAutoscroll(void);
 size_t print(const char []);
-
+void printInt(int);
 void setRowOffsets(int row1, int row2, int row3, int row4);
 void createChar(uint8_t, uint8_t[]);
 void setCursor(uint8_t, uint8_t); 
