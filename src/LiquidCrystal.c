@@ -2,12 +2,13 @@
  * LiquidCrystal.c - LiquidCrystal Library for STM32 ARM microcontrollers
  *
  *  Created on: April 12, 2018
- *      Author: S. Saeed Hosseini (sayidhosseini@hotmail.com)
- *      Ported from: Arduino, Adafruit (https://github.com/arduino-libraries/LiquidCrystal)
- *      Published to: Github (https://github.com/SayidHosseini/STM32LiquidCrystal)
+ *  Modified on: July 17, 2020
+ *	Ported from: Arduino, Adafruit (https://github.com/arduino-libraries/LiquidCrystal)
+ *      Author: S. Saeed Hosseini (sayidhosseini@hotmail.com) - Github (https://github.com/SayidHosseini/STM32LiquidCrystal)
+ *      Modified By: Satyam Khanna (satyamkhanna66@gmail.com) - Github (https://github.com/samkhannaind/STM32LiquidCrystal)
  */
 
-#include "stm32f3xx_hal.h" // change this line accordingly
+#include "stm32f3xx_hal.h" // change this line according to your mcu
 #include "LiquidCrystal.h"
 #include <stdio.h>
 #include <string.h>
@@ -292,6 +293,13 @@ size_t print(const char str[]) {
     else break;
   }
   return n;
+}
+
+// Allows Us To Print Integer On LCD
+void printInt(int num){
+  char buff[8];
+	sprintf(buff,"%d",num);
+	print(buff);
 }
 
 // Allows us to fill the first 8 CGRAM locations
